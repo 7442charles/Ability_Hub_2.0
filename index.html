@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Talanta Hub – Book inclusive talent and venues</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root{--bg:#F6F9F6;--fg:#13201A;--card:#fff;--brand:#0A5C45;--onbrand:#fff;--gold:#F4B41A;--line:#9DB3A8;--muted:#3E5148}
+.hc{--bg:#000;--fg:#FFEB3B;--card:#000;--brand:#FFEB3B;--onbrand:#000;--gold:#fff;--line:#FFEB3B;--muted:#fff}
+body{font-family:'Atkinson Hyperlegible',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6}
+.h1{font-size:2rem;font-weight:700;line-height:1.2}.h2{font-size:1.5rem;font-weight:700;line-height:1.3}
+.muted{color:var(--muted)}
+.card{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:1rem}
+.btn,.chip,.inp{min-height:48px;min-width:48px;border-radius:10px;padding:.5rem 1rem;font:inherit}
+.btn{background:var(--brand);color:var(--onbrand);font-weight:700;border:2px solid var(--brand);cursor:pointer}
+.btn.alt{background:transparent;color:var(--fg);border-color:var(--fg)}
+.chip{border:2px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--brand);color:var(--onbrand);border-color:var(--brand);font-weight:700}
+.inp{border:2px solid var(--fg);background:var(--card);color:var(--fg);width:100%}
+label{display:grid;gap:.25rem;font-weight:700}
+label.row{display:flex;align-items:center;gap:.6rem;font-weight:400;min-height:48px}
+input[type=checkbox],input[type=radio]{width:24px;height:24px;accent-color:var(--brand)}
+:focus-visible{outline:4px solid var(--gold);outline-offset:2px}
+.hc :focus-visible{outline-color:#fff}
+header,.bar{background:var(--brand);color:var(--onbrand)}
+.bar .btn{background:transparent;color:var(--onbrand);border-color:var(--onbrand)}
+.hc header,.hc .bar{border-bottom:2px solid #FFEB3B;background:#000;color:#FFEB3B}
+nav a{display:inline-flex;align-items:center;min-height:48px;padding:0 .9rem;border-radius:10px;color:inherit;text-decoration:underline;text-underline-offset:4px}
+nav a[aria-current]{background:var(--gold);color:#13201A;font-weight:700;text-decoration:none}
+.av{width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--line);flex:none}
+.ph{display:grid;place-items:center;background:var(--brand);color:var(--onbrand);font-weight:700;font-size:1.5rem}
+.tag{display:inline-block;border:2px solid var(--fg);border-radius:999px;padding:0 .7rem;font-size:.9rem}
+.ok{color:#0A5C45;font-weight:700}.hc .ok{color:#fff}
+dialog{background:var(--bg);color:var(--fg);border:3px solid var(--fg);border-radius:16px;padding:1.25rem;width:min(34rem,94vw);max-height:92vh;overflow:auto}
+dialog::backdrop{background:rgba(0,0,0,.65)}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:#fff;color:#000;padding:.75rem;z-index:99}
+@media (prefers-reduced-motion:no-preference){.spin{animation:s 1s linear infinite}@keyframes s{to{transform:rotate(360deg)}}}
+</style>
+</head>
+<body>
+<a class="skip" href="#app">Skip to content</a>
+<div class="bar"><div class="max-w-6xl mx-auto px-4 py-2 flex flex-wrap items-center gap-2" role="toolbar" aria-label="Accessibility settings">
+<span class="font-bold mr-auto">Accessibility</span>
+<button class="btn" data-act="smaller" aria-label="Decrease text size">A−</button>
+<button class="btn" data-act="bigger" aria-label="Increase text size">A+</button>
+<button class="btn" id="hc" data-act="hc" aria-pressed="false">High contrast</button>
+<button class="btn" id="spk" data-act="speak" aria-pressed="false">Read aloud</button>
+</div></div>
+<header><div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center gap-3">
+<a href="#talent" class="text-2xl font-bold mr-auto" style="color:inherit;text-decoration:none">Talanta Hub</a>
+<nav aria-label="Main" class="flex flex-wrap gap-1">
+<a href="#talent">Talent</a><a href="#venues">Venues</a><a href="#shop">Marketplace</a><a href="#bookings">My bookings</a><a href="#join">Join</a></nav>
+<button class="btn" style="background:var(--gold);color:#13201A;border-color:var(--gold)" data-act="cart">Cart (<span id="cartN">0</span>)</button>
+</div></header>
+<main id="app" tabindex="-1" class="max-w-6xl mx-auto px-4 py-6" aria-live="polite"></main>
+<footer class="max-w-6xl mx-auto px-4 pb-8 muted">Prototype. Payments are simulated and no real money moves.</footer>
+<dialog id="dlg" aria-labelledby="dt"></dialog>
+<script src="app.js"></script>
+</body>
+</html>
