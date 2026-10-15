@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root" class="text-base">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking & M-Pesa Checkout - AbilityHub & TalentConnect</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900 transition-colors duration-200" id="body-root">
+
+    <!-- Main Navigation Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleMobileMenu()" class="md:hidden min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-700 hover:text-brand-600 focus:outline-none" aria-label="Open Navigation Menu">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <a href="index.html" class="flex items-center gap-2 text-xl md:text-2xl font-black text-brand-700">
+                    <i class="fa-solid fa-hands-holding-child"></i> AbilityHub & TalentConnect
+                </a>
+            </div>
+            <nav class="hidden md:flex items-center gap-6 font-medium">
+                <a href="index.html" class="hover:text-brand-600">Home</a>
+                <a href="talents.html" class="hover:text-brand-600">Talents</a>
+                <a href="venues.html" class="hover:text-brand-600">Venues</a>
+                <a href="marketplace.html" class="hover:text-brand-600">Marketplace</a>
+                <a href="dashboard.html" class="hover:text-brand-600">My Bookings</a>
+            </nav>
+            <div class="flex items-center gap-3">
+                <a href="marketplace.html" class="relative min-w-[48px] min-h-[48px] flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full p-2" aria-label="Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping text-lg"></i>
+                    <span id="cart-badge" class="absolute top-0 right-0 bg-brand-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Navigation -->
+    <div id="mobile-drawer-backdrop" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity opacity-0" onclick="toggleMobileMenu()"></div>
+    <div id="mobile-drawer" class="fixed top-0 left-0 bottom-0 w-80 bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-6 border-b border-gray-200 flex items-center justify-between bg-brand-50">
+            <h3 class="font-bold text-lg text-brand-700 flex items-center gap-2">
+                <i class="fa-solid fa-hands-holding-child"></i> Menu
+            </h3>
+            <button onclick="toggleMobileMenu()" class="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-500 hover:text-gray-900" aria-label="Close Menu">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+        <div class="p-6 flex-1 flex flex-col gap-4 overflow-y-auto">
+            <a href="index.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-house w-8 text-gray-500"></i> Home</a>
+            <a href="talents.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-users w-8 text-gray-500"></i> Talents Directory</a>
+            <a href="venues.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-hotel w-8 text-gray-500"></i> Accessible Venues</a>
+            <a href="marketplace.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-store w-8 text-gray-500"></i> Hotel Marketplace</a>
+            <a href="dashboard.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-gauge w-8 text-gray-500"></i> My Bookings Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Floating Accessibility Toolbar -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <div id="accessibility-panel" class="mb-3 w-72 bg-gray-900 text-white p-4 rounded-2xl shadow-2xl border border-gray-700 hidden">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-800">
+                <span class="font-bold text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-universal-access text-brand-500"></i> Accessibility Tools
+                </span>
+                <button onclick="toggleAccessibilityPanel()" class="min-w-[32px] min-h-[32px] text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <span class="text-xs text-gray-400 block mb-1">Dynamic Text Scaling:</span>
+                    <div class="flex items-center gap-2">
+                        <button onclick="adjustFontSize('decrease')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs font-bold">A-</button>
+                        <button onclick="adjustFontSize('reset')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs">Reset</button>
+                        <button onclick="adjustFontSize('increase')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs font-bold">A+</button>
+                    </div>
+                </div>
+                <div>
+                    <button onclick="toggleHighContrast()" class="w-full min-h-[44px] bg-yellow-400 text-gray-900 font-bold rounded-lg hover:bg-yellow-300 transition text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-half-stroke"></i> Toggle High Contrast
+                    </button>
+                </div>
+                <div>
+                    <button onclick="toggleVoiceAssist()" id="voice-btn" class="w-full min-h-[44px] bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-500 transition text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-volume-high"></i> <span id="voice-label">Voice Assist: Off</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button onclick="toggleAccessibilityPanel()" class="min-w-[56px] min-h-[56px] w-14 h-14 bg-brand-600 hover:bg-brand-700 text-white rounded-full shadow-xl flex items-center justify-center text-2xl transition" aria-label="Open Accessibility Menu">
+            <i class="fa-solid fa-universal-access"></i>
+        </button>
+    </div>
+
+    <!-- Main Content Section -->
+    <section class="max-w-4xl mx-auto px-4 py-10">
+        <div class="mb-8 text-center">
+            <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Booking & Secure Payment Engine</span>
+            <h1 class="text-3xl md:text-4xl font-extrabold mt-1">Complete Your Event Booking or Checkout</h1>
+            <p class="text-gray-600 mt-2">Specify your partner venue, schedule, accessibility stage notes, and pay securely via Safaricom M-Pesa STK Push.</p>
+        </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+            <form id="booking-form" onsubmit="triggerMpesaCheckout(event)">
+                <div class="space-y-6">
+                    <!-- Selected Item / Talent -->
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Booking / Purchase Item</label>
+                        <input type="text" id="booking-item" value="Amina Juma & Band - Live Acoustic Set" class="w-full min-h-[48px] px-4 bg-gray-100 border border-gray-300 rounded-xl text-gray-700 font-medium" readonly>
+                    </div>
+
+                    <!-- Venue Selection -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="partner-venue" class="block text-sm font-semibold mb-2">Select Partner Hotel / Venue *</label>
+                            <select id="partner-venue" required class="w-full min-h-[48px] px-4 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-600 focus:outline-none">
+                                <option value="">-- Choose Accessible Venue --</option>
+                                <option value="Sarova Stanley Nairobi">Sarova Stanley Nairobi</option>
+                                <option value="Fairmont The Norfolk">Fairmont The Norfolk</option>
+                                <option value="Radisson Blu Upper Hill">Radisson Blu Upper Hill</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="event-date" class="block text-sm font-semibold mb-2">Event Date *</label>
+                            <input type="date" id="event-date" required class="w-full min-h-[48px] px-4 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-600 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Time Slot & Base Fee -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="time-slot" class="block text-sm font-semibold mb-2">Time Slot *</label>
+                            <select id="time-slot" required class="w-full min-h-[48px] px-4 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-600 focus:outline-none">
+                                <option value="Morning">Morning (9:00 AM - 12:00 PM)</option>
+                                <option value="Afternoon">Afternoon (2:00 PM - 5:00 PM)</option>
+                                <option value="Evening">Evening (7:00 PM - 10:00 PM)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="total-fee" class="block text-sm font-semibold mb-2">Dynamic Total Fee (KSh)</label>
+                            <input type="text" id="total-fee" value="25,000" class="w-full min-h-[48px] px-4 bg-brand-50 border border-brand-600 rounded-xl text-brand-700 font-black text-lg" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Accessibility / Stage Setup Notes -->
+                    <div>
+                        <label for="accessibility-notes" class="block text-sm font-semibold mb-2">Specific Accessibility / Stage Setup Notes</label>
+                        <textarea id="accessibility-notes" rows="3" placeholder="e.g., Ramp access to stage, sign language interpreter needed, braille itinerary..." class="w-full p-4 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-600 focus:outline-none"></textarea>
+                    </div>
+
+                    <hr class="border-gray-200">
+
+                    <!-- M-Pesa Payment Section -->
+                    <div>
+                        <h3 class="font-bold text-lg mb-3 flex items-center gap-2 text-brand-700">
+                            <i class="fa-solid fa-mobile-screen-button"></i> Safaricom M-Pesa Mobile Money Checkout
+                        </h3>
+                        <p class="text-sm text-gray-600 mb-4">Enter your Safaricom phone number below to receive an STK Push payment prompt on your device.</p>
+                        <div class="max-w-md">
+                            <label for="mpesa-phone" class="block text-sm font-semibold mb-2">M-Pesa Phone Number *</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-3.5 font-bold text-gray-500">+254</span>
+                                <input type="tel" id="mpesa-phone" required placeholder="712345678" pattern="[0-9]{9}" class="w-full min-h-[48px] pl-16 pr-4 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-600 focus:outline-none font-medium">
+                            </div>
+                            <span class="text-xs text-gray-500 mt-1 block">Format: 9 digits after +254 (e.g. 712345678)</span>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full min-h-[52px] bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition shadow-lg flex items-center justify-center gap-2 text-base">
+                        <i class="fa-solid fa-lock"></i> Pay Now with M-Pesa STK Push
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- M-Pesa STK Simulation Modal -->
+    <div id="stk-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 text-center">
+            <div id="stk-loading" class="py-8">
+                <div class="w-16 h-16 border-4 border-brand-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <h3 class="font-bold text-xl mb-2">STK Push Sent to Phone</h3>
+                <p class="text-sm text-gray-600 mb-4">Please check your phone (+254 <span id="display-phone"></span>) and enter your M-Pesa PIN to complete payment.</p>
+                <div class="bg-yellow-50 text-yellow-800 p-3 rounded-xl text-xs font-medium">
+                    Simulating Safaricom Daraja API transaction...
+                </div>
+            </div>
+            <div id="stk-success" class="py-6 hidden">
+                <div class="w-16 h-16 bg-green-100 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h3 class="font-bold text-2xl text-brand-700 mb-2">Payment Successful!</h3>
+                <p class="text-sm text-gray-600 mb-6">Your transaction has been verified and your booking is confirmed.</p>
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 text-left text-xs space-y-2 mb-6">
+                    <p><strong>Receipt No:</strong> <span id="receipt-no"></span></p>
+                    <p><strong>Timestamp:</strong> <span id="receipt-time"></span></p>
+                    <p><strong>Status:</strong> <span class="text-green-600 font-bold">Confirmed & Paid</span></p>
+                </div>
+                <a href="dashboard.html" class="w-full min-h-[48px] bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl flex items-center justify-center transition">
+                    View in My Bookings Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 border-t border-gray-800 mt-20">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-gray-500">
+            &copy; 2026 AbilityHub & TalentConnect Platform. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- JavaScript Controllers -->
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const talent = urlParams.get('talent');
+            const venue = urlParams.get('venue');
+            const checkout = urlParams.get('checkout');
+
+            if (talent) {
+                document.getElementById('booking-item').value = `${talent} - Live Performance Booking`;
+                document.getElementById('total-fee').value = '25,000';
+            } else if (venue) {
+                document.getElementById('partner-venue').value = venue;
+                document.getElementById('booking-item').value = `Venue Space Booking - ${venue}`;
+                document.getElementById('total-fee').value = '40,000';
+            } else if (checkout === 'marketplace') {
+                const cart = JSON.parse(localStorage.getItem('abilityhub_cart') || '[]');
+                let sum = 0;
+                let names = cart.map(i => i.name).join(', ');
+                cart.forEach(i => sum += i.price);
+                if (cart.length > 0) {
+                    document.getElementById('booking-item').value = `Marketplace Order: ${names}`;
+                    document.getElementById('total-fee').value = sum.toLocaleString();
+                }
+            }
+        };
+
+        function triggerMpesaCheckout(e) {
+            e.preventDefault();
+            const phone = document.getElementById('mpesa-phone').value;
+            document.getElementById('display-phone').innerText = phone;
+            document.getElementById('stk-modal').classList.remove('hidden');
+
+            setTimeout(() => {
+                document.getElementById('stk-loading').classList.add('hidden');
+                document.getElementById('stk-success').classList.remove('hidden');
+
+                const receiptCode = 'AH' + Math.floor(100000000 + Math.random() * 900000000);
+                const now = new Date().toLocaleString();
+                document.getElementById('receipt-no').innerText = receiptCode;
+                document.getElementById('receipt-time').innerText = now;
+
+                // Save to localStorage for Dashboard
+                const newBooking = {
+                    item: document.getElementById('booking-item').value,
+                    venue: document.getElementById('partner-venue').value || 'Marketplace Order',
+                    date: document.getElementById('event-date').value || new Date().toISOString().split('T')[0],
+                    slot: document.getElementById('time-slot').value || 'Standard',
+                    fee: document.getElementById('total-fee').value,
+                    receipt: receiptCode,
+                    time: now,
+                    status: 'Confirmed & Paid'
+                };
+
+                const existingBookings = JSON.parse(localStorage.getItem('abilityhub_bookings') || '[]');
+                existingBookings.push(newBooking);
+                localStorage.setItem('abilityhub_bookings', JSON.stringify(existingBookings));
+                localStorage.removeItem('abilityhub_cart');
+            }, 3000);
+        }
+
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobile-drawer');
+            const backdrop = document.getElementById('mobile-drawer-backdrop');
+            const isOpen = !drawer.classList.contains('-translate-x-full');
+            if (isOpen) {
+                drawer.classList.add('-translate-x-full');
+                backdrop.classList.add('opacity-0', 'hidden');
+            } else {
+                drawer.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+                setTimeout(() => { backdrop.classList.remove('opacity-0'); backdrop.classList.add('opacity-100'); }, 10);
+            }
+        }
+
+        function toggleAccessibilityPanel() {
+            document.getElementById('accessibility-panel').classList.toggle('hidden');
+        }
+
+        let currentScaleIndex = 1;
+        const scales = ['text-sm', 'text-base', 'text-lg', 'text-xl'];
+        function adjustFontSize(action) {
+            const htmlRoot = document.getElementById('html-root');
+            htmlRoot.classList.remove(scales[currentScaleIndex]);
+            if (action === 'increase' && currentScaleIndex < scales.length - 1) currentScaleIndex++;
+            else if (action === 'decrease' && currentScaleIndex > 0) currentScaleIndex--;
+            else if (action === 'reset') currentScaleIndex = 1;
+            htmlRoot.classList.add(scales[currentScaleIndex]);
+        }
+
+        let highContrastActive = false;
+        function toggleHighContrast() {
+            highContrastActive = !highContrastActive;
+            const body = document.getElementById('body-root');
+            if (highContrastActive) {
+                body.classList.remove('bg-gray-50', 'text-gray-900');
+                body.classList.add('bg-black', 'text-yellow-300');
+            } else {
+                body.classList.remove('bg-black', 'text-yellow-300');
+                body.classList.add('bg-gray-50', 'text-gray-900');
+            }
+        }
+
+        let voiceActive = false;
+        function toggleVoiceAssist() {
+            voiceActive = !voiceActive;
+            const btnLabel = document.getElementById('voice-label');
+            if (voiceActive) {
+                btnLabel.innerText = "Voice Assist: On";
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.speak(new SpeechSynthesisUtterance("Booking and M-Pesa payment page loaded. Complete your details to initiate STK push."));
+                }
+            } else {
+                btnLabel.innerText = "Voice Assist: Off";
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            }
+        }
+    </script>
+</body>
+</html>

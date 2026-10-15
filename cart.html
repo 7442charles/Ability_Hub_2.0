@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root" class="text-base">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - AbilityHub & TalentConnect</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900 transition-colors duration-200" id="body-root">
+
+    <!-- Main Navigation Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleMobileMenu()" class="md:hidden min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-700 hover:text-brand-600 focus:outline-none" aria-label="Open Navigation Menu">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <a href="index.html" class="flex items-center gap-2 text-xl md:text-2xl font-black text-brand-700">
+                    <i class="fa-solid fa-hands-holding-child"></i> AbilityHub & TalentConnect
+                </a>
+            </div>
+            <nav class="hidden md:flex items-center gap-6 font-medium">
+                <a href="index.html" class="hover:text-brand-600">Home</a>
+                <a href="talents.html" class="hover:text-brand-600">Talents</a>
+                <a href="venues.html" class="hover:text-brand-600">Venues</a>
+                <a href="marketplace.html" class="hover:text-brand-600">Marketplace</a>
+                <a href="dashboard.html" class="hover:text-brand-600">My Bookings</a>
+            </nav>
+            <div class="flex items-center gap-3">
+                <a href="cart.html" class="relative min-w-[48px] min-h-[48px] flex items-center justify-center bg-brand-50 text-brand-700 rounded-full p-2" aria-label="Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping text-lg"></i>
+                    <span id="cart-badge" class="absolute top-0 right-0 bg-brand-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Navigation -->
+    <div id="mobile-drawer-backdrop" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity opacity-0" onclick="toggleMobileMenu()"></div>
+    <div id="mobile-drawer" class="fixed top-0 left-0 bottom-0 w-80 bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-6 border-b border-gray-200 flex items-center justify-between bg-brand-50">
+            <h3 class="font-bold text-lg text-brand-700 flex items-center gap-2">
+                <i class="fa-solid fa-hands-holding-child"></i> Menu
+            </h3>
+            <button onclick="toggleMobileMenu()" class="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-500 hover:text-gray-900" aria-label="Close Menu">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+        <div class="p-6 flex-1 flex flex-col gap-4 overflow-y-auto">
+            <a href="index.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-house w-8 text-gray-500"></i> Home</a>
+            <a href="talents.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-users w-8 text-gray-500"></i> Talents Directory</a>
+            <a href="venues.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-hotel w-8 text-gray-500"></i> Accessible Venues</a>
+            <a href="marketplace.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-store w-8 text-gray-500"></i> Hotel Marketplace</a>
+            <a href="cart.html" class="min-h-[48px] flex items-center px-4 rounded-lg bg-brand-50 text-brand-700 font-semibold"><i class="fa-solid fa-cart-shopping w-8"></i> Shopping Cart</a>
+            <a href="dashboard.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-gauge w-8 text-gray-500"></i> My Bookings Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Floating Accessibility Toolbar -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <div id="accessibility-panel" class="mb-3 w-72 bg-gray-900 text-white p-4 rounded-2xl shadow-2xl border border-gray-700 hidden">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-800">
+                <span class="font-bold text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-universal-access text-brand-500"></i> Accessibility Tools
+                </span>
+                <button onclick="toggleAccessibilityPanel()" class="min-w-[32px] min-h-[32px] text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <span class="text-xs text-gray-400 block mb-1">Dynamic Text Scaling:</span>
+                    <div class="flex items-center gap-2">
+                        <button onclick="adjustFontSize('decrease')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs font-bold">A-</button>
+                        <button onclick="adjustFontSize('reset')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs">Reset</button>
+                        <button onclick="adjustFontSize('increase')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs font-bold">A+</button>
+                    </div>
+                </div>
+                <div>
+                    <button onclick="toggleHighContrast()" class="w-full min-h-[44px] bg-yellow-400 text-gray-900 font-bold rounded-lg hover:bg-yellow-300 transition text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-half-stroke"></i> Toggle High Contrast
+                    </button>
+                </div>
+                <div>
+                    <button onclick="toggleVoiceAssist()" id="voice-btn" class="w-full min-h-[44px] bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-500 transition text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-volume-high"></i> <span id="voice-label">Voice Assist: Off</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button onclick="toggleAccessibilityPanel()" class="min-w-[56px] min-h-[56px] w-14 h-14 bg-brand-600 hover:bg-brand-700 text-white rounded-full shadow-xl flex items-center justify-center text-2xl transition" aria-label="Open Accessibility Menu">
+            <i class="fa-solid fa-universal-access"></i>
+        </button>
+    </div>
+
+    <!-- Main Content Section -->
+    <section class="max-w-7xl mx-auto px-4 py-10">
+        <div class="mb-8">
+            <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">E-Commerce Checkout</span>
+            <h1 class="text-3xl md:text-4xl font-extrabold mt-1">Your Shopping Cart</h1>
+            <p class="text-gray-600 mt-2">Review your selected artisanal crafts and event tickets before proceeding to secure M-Pesa payment[cite: 2].</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Cart Items List -->
+            <div class="lg:col-span-2 space-y-4" id="cart-page-items">
+                <!-- Populated dynamically via JS -->
+            </div>
+
+            <!-- Cart Summary Card -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 h-fit space-y-6">
+                <h3 class="font-bold text-lg border-b border-gray-100 pb-3">Order Summary</h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Subtotal</span>
+                        <span id="summary-subtotal" class="font-semibold">KSh 0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Delivery / Handling</span>
+                        <span class="font-semibold text-brand-600">Free</span>
+                    </div>
+                    <hr class="border-gray-100">
+                    <div class="flex justify-between text-base">
+                        <span class="font-bold">Total Cost</span>
+                        <span id="summary-total" class="font-black text-xl text-brand-700">KSh 0</span>
+                    </div>
+                </div>
+                <button onclick="proceedToCheckout()" id="page-checkout-btn" class="w-full min-h-[48px] bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition shadow opacity-50 cursor-not-allowed" disabled>
+                    Proceed to M-Pesa Checkout <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <a href="marketplace.html" class="w-full min-h-[48px] bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl flex items-center justify-center transition text-sm">
+                    Continue Shopping
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 border-t border-gray-800 mt-20">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-gray-500">
+            &copy; 2026 AbilityHub & TalentConnect Platform. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- JavaScript Controllers -->
+    <script>
+        window.onload = function() {
+            loadCartPage();
+        };
+
+        function loadCartPage() {
+            const container = document.getElementById('cart-page-items');
+            const cart = JSON.parse(localStorage.getItem('abilityhub_cart') || '[]');
+            const checkoutBtn = document.getElementById('page-checkout-btn');
+
+            document.getElementById('cart-badge').innerText = cart.length;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white p-12 rounded-2xl shadow-sm border border-gray-200 text-center">
+                        <div class="w-16 h-16 bg-brand-50 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2">Your Cart is Empty</h3>
+                        <p class="text-gray-600 mb-6">Explore our marketplace to add artisanal crafts and event tickets.</p>
+                        <a href="marketplace.html" class="inline-flex min-h-[48px] px-6 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl items-center justify-center transition">
+                            Browse Marketplace
+                        </a>
+                    </div>
+                `;
+                document.getElementById('summary-subtotal').innerText = 'KSh 0';
+                document.getElementById('summary-total').innerText = 'KSh 0';
+                checkoutBtn.disabled = true;
+                checkoutBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                html += `
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div>
+                            <span class="inline-block bg-brand-50 text-brand-700 text-xs px-2.5 py-0.5 rounded font-semibold mb-1">Item</span>
+                            <h3 class="font-bold text-lg">${item.name}</h3>
+                            <p class="text-xs text-gray-500">Artisan / Partner: <span class="font-medium text-gray-700">${item.artisan}</span></p>
+                        </div>
+                        <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
+                            <span class="font-extrabold text-lg text-brand-700">KSh ${item.price.toLocaleString()}</span>
+                            <button onclick="removeItem(${index})" class="min-w-[40px] min-h-[40px] bg-red-50 text-red-600 hover:bg-red-100 rounded-xl flex items-center justify-center transition" aria-label="Remove Item">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            document.getElementById('summary-subtotal').innerText = `KSh ${total.toLocaleString()}`;
+            document.getElementById('summary-total').innerText = `KSh ${total.toLocaleString()}`;
+            checkoutBtn.disabled = false;
+            checkoutBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('abilityhub_cart') || '[]');
+            cart.splice(index, 1);
+            localStorage.setItem('abilityhub_cart', JSON.stringify(cart));
+            loadCartPage();
+        }
+
+        function proceedToCheckout() {
+            window.location.href = 'booking.html?checkout=marketplace';
+        }
+
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobile-drawer');
+            const backdrop = document.getElementById('mobile-drawer-backdrop');
+            const isOpen = !drawer.classList.contains('-translate-x-full');
+            if (isOpen) {
+                drawer.classList.add('-translate-x-full');
+                backdrop.classList.add('opacity-0', 'hidden');
+            } else {
+                drawer.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+                setTimeout(() => { backdrop.classList.remove('opacity-0'); backdrop.classList.add('opacity-100'); }, 10);
+            }
+        }
+
+        function toggleAccessibilityPanel() {
+            document.getElementById('accessibility-panel').classList.toggle('hidden');
+        }
+
+        let currentScaleIndex = 1;
+        const scales = ['text-sm', 'text-base', 'text-lg', 'text-xl'];
+        function adjustFontSize(action) {
+            const htmlRoot = document.getElementById('html-root');
+            htmlRoot.classList.remove(scales[currentScaleIndex]);
+            if (action === 'increase' && currentScaleIndex < scales.length - 1) currentScaleIndex++;
+            else if (action === 'decrease' && currentScaleIndex > 0) currentScaleIndex--;
+            else if (action === 'reset') currentScaleIndex = 1;
+            htmlRoot.classList.add(scales[currentScaleIndex]);
+        }
+
+        let highContrastActive = false;
+        function toggleHighContrast() {
+            highContrastActive = !highContrastActive;
+            const body = document.getElementById('body-root');
+            if (highContrastActive) {
+                body.classList.remove('bg-gray-50', 'text-gray-900');
+                body.classList.add('bg-black', 'text-yellow-300');
+            } else {
+                body.classList.remove('bg-black', 'text-yellow-300');
+                body.classList.add('bg-gray-50', 'text-gray-900');
+            }
+        }
+
+        let voiceActive = false;
+        function toggleVoiceAssist() {
+            voiceActive = !voiceActive;
+            const btnLabel = document.getElementById('voice-label');
+            if (voiceActive) {
+                btnLabel.innerText = "Voice Assist: On";
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.speak(new SpeechSynthesisUtterance("Shopping cart page loaded. Review your items and proceed to checkout."));
+                }
+            } else {
+                btnLabel.innerText = "Voice Assist: Off";
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            }
+        }
+    </script>
+</body>
+</html>

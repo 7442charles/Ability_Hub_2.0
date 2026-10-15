@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root" class="text-base">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings Dashboard - AbilityHub & TalentConnect</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900 transition-colors duration-200" id="body-root">
+
+    <!-- Main Navigation Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleMobileMenu()" class="md:hidden min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-700 hover:text-brand-600 focus:outline-none" aria-label="Open Navigation Menu">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <a href="index.html" class="flex items-center gap-2 text-xl md:text-2xl font-black text-brand-700">
+                    <i class="fa-solid fa-hands-holding-child"></i> AbilityHub & TalentConnect
+                </a>
+            </div>
+            <nav class="hidden md:flex items-center gap-6 font-medium">
+                <a href="index.html" class="hover:text-brand-600">Home</a>
+                <a href="talents.html" class="hover:text-brand-600">Talents</a>
+                <a href="venues.html" class="hover:text-brand-600">Venues</a>
+                <a href="marketplace.html" class="hover:text-brand-600">Marketplace</a>
+                <a href="dashboard.html" class="text-brand-600 font-semibold hover:text-brand-700">My Bookings</a>
+            </nav>
+            <div class="flex items-center gap-3">
+                <a href="marketplace.html" class="relative min-w-[48px] min-h-[48px] flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full p-2" aria-label="Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping text-lg"></i>
+                    <span id="cart-badge" class="absolute top-0 right-0 bg-brand-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Navigation -->
+    <div id="mobile-drawer-backdrop" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity opacity-0" onclick="toggleMobileMenu()"></div>
+    <div id="mobile-drawer" class="fixed top-0 left-0 bottom-0 w-80 bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-6 border-b border-gray-200 flex items-center justify-between bg-brand-50">
+            <h3 class="font-bold text-lg text-brand-700 flex items-center gap-2">
+                <i class="fa-solid fa-hands-holding-child"></i> Menu
+            </h3>
+            <button onclick="toggleMobileMenu()" class="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-500 hover:text-gray-900" aria-label="Close Menu">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+        <div class="p-6 flex-1 flex flex-col gap-4 overflow-y-auto">
+            <a href="index.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-house w-8 text-gray-500"></i> Home</a>
+            <a href="talents.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-users w-8 text-gray-500"></i> Talents Directory</a>
+            <a href="venues.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-hotel w-8 text-gray-500"></i> Accessible Venues</a>
+            <a href="marketplace.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-store w-8 text-gray-500"></i> Hotel Marketplace</a>
+            <a href="dashboard.html" class="min-h-[48px] flex items-center px-4 rounded-lg bg-brand-50 text-brand-700 font-semibold"><i class="fa-solid fa-gauge w-8"></i> My Bookings Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Floating Accessibility Toolbar -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <div id="accessibility-panel" class="mb-3 w-72 bg-gray-900 text-white p-4 rounded-2xl shadow-2xl border border-gray-700 hidden">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-800">
+                <span class="font-bold text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-universal-access text-brand-500"></i> Accessibility Tools
+                </span>
+                <button onclick="toggleAccessibilityPanel()" class="min-w-[32px] min-h-[32px] text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <span class="text-xs text-gray-400 block mb-1">Dynamic Text Scaling:</span>
+                    <div class="flex items-center gap-2">
+                        <button onclick="adjustFontSize('decrease')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs font-bold">A-</button>
+                        <button onclick="adjustFontSize('reset')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs">Reset</button>
+                        <button onclick="adjustFontSize('increase')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs font-bold">A+</button>
+                    </div>
+                </div>
+                <div>
+                    <button onclick="toggleHighContrast()" class="w-full min-h-[44px] bg-yellow-400 text-gray-900 font-bold rounded-lg hover:bg-yellow-300 transition text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-half-stroke"></i> Toggle High Contrast
+                    </button>
+                </div>
+                <div>
+                    <button onclick="toggleVoiceAssist()" id="voice-btn" class="w-full min-h-[44px] bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-500 transition text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-volume-high"></i> <span id="voice-label">Voice Assist: Off</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button onclick="toggleAccessibilityPanel()" class="min-w-[56px] min-h-[56px] w-14 h-14 bg-brand-600 hover:bg-brand-700 text-white rounded-full shadow-xl flex items-center justify-center text-2xl transition" aria-label="Open Accessibility Menu">
+            <i class="fa-solid fa-universal-access"></i>
+        </button>
+    </div>
+
+    <!-- Main Content Section -->
+    <section class="max-w-7xl mx-auto px-4 py-10">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+            <div>
+                <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">User Dashboard</span>
+                <h1 class="text-3xl md:text-4xl font-extrabold mt-1">My Bookings & Transaction History</h1>
+                <p class="text-gray-600 mt-2">Unified view of all confirmed talent bookings, venue reservations, and marketplace purchases.</p>
+            </div>
+            <a href="talents.html" class="mt-4 md:mt-0 min-h-[48px] px-6 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition shadow">
+                <i class="fa-solid fa-plus"></i> Book New Talent
+            </a>
+        </div>
+
+        <!-- Bookings Container -->
+        <div id="bookings-container" class="space-y-6">
+            <!-- Dynamically populated or empty state -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 border-t border-gray-800 mt-20">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-gray-500">
+            &copy; 2026 AbilityHub & TalentConnect Platform. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- JavaScript Controllers -->
+    <script>
+        window.onload = function() {
+            loadBookings();
+        };
+
+        function loadBookings() {
+            const container = document.getElementById('bookings-container');
+            const bookings = JSON.parse(localStorage.getItem('abilityhub_bookings') || '[]');
+
+            if (bookings.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white p-12 rounded-2xl shadow-sm border border-gray-200 text-center">
+                        <div class="w-16 h-16 bg-brand-50 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                            <i class="fa-solid fa-calendar-xmark"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2">No Bookings Found</h3>
+                        <p class="text-gray-600 mb-6">You haven't completed any talent bookings or marketplace purchases yet.</p>
+                        <a href="talents.html" class="inline-flex min-h-[48px] px-6 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl items-center justify-center transition">
+                            Explore Talents Directory
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            bookings.reverse().forEach((b, index) => {
+                html += `
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-3">
+                                <span class="bg-green-100 text-green-800 text-xs px-2.5 py-1 rounded-full font-bold">${b.status}</span>
+                                <span class="text-xs text-gray-500"><i class="fa-solid fa-receipt mr-1"></i> Receipt: ${b.receipt}</span>
+                            </div>
+                            <h3 class="font-bold text-xl">${b.item}</h3>
+                            <p class="text-sm text-gray-600"><i class="fa-solid fa-hotel text-brand-600 mr-1"></i> Venue: <span class="font-medium text-gray-800">${b.venue}</span></p>
+                            <p class="text-xs text-gray-500"><i class="fa-solid fa-calendar mr-1"></i> Date: ${b.date} • Time Slot: ${b.slot} • Paid at: ${b.time}</p>
+                        </div>
+                        <div class="flex flex-col items-end gap-2 w-full md:w-auto">
+                            <span class="font-black text-xl text-brand-700">KSh ${b.fee}</span>
+                            <span class="text-xs text-gray-400">Paid via M-Pesa STK Push</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobile-drawer');
+            const backdrop = document.getElementById('mobile-drawer-backdrop');
+            const isOpen = !drawer.classList.contains('-translate-x-full');
+            if (isOpen) {
+                drawer.classList.add('-translate-x-full');
+                backdrop.classList.add('opacity-0', 'hidden');
+            } else {
+                drawer.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+                setTimeout(() => { backdrop.classList.remove('opacity-0'); backdrop.classList.add('opacity-100'); }, 10);
+            }
+        }
+
+        function toggleAccessibilityPanel() {
+            document.getElementById('accessibility-panel').classList.toggle('hidden');
+        }
+
+        let currentScaleIndex = 1;
+        const scales = ['text-sm', 'text-base', 'text-lg', 'text-xl'];
+        function adjustFontSize(action) {
+            const htmlRoot = document.getElementById('html-root');
+            htmlRoot.classList.remove(scales[currentScaleIndex]);
+            if (action === 'increase' && currentScaleIndex < scales.length - 1) currentScaleIndex++;
+            else if (action === 'decrease' && currentScaleIndex > 0) currentScaleIndex--;
+            else if (action === 'reset') currentScaleIndex = 1;
+            htmlRoot.classList.add(scales[currentScaleIndex]);
+        }
+
+        let highContrastActive = false;
+        function toggleHighContrast() {
+            highContrastActive = !highContrastActive;
+            const body = document.getElementById('body-root');
+            if (highContrastActive) {
+                body.classList.remove('bg-gray-50', 'text-gray-900');
+                body.classList.add('bg-black', 'text-yellow-300');
+            } else {
+                body.classList.remove('bg-black', 'text-yellow-300');
+                body.classList.add('bg-gray-50', 'text-gray-900');
+            }
+        }
+
+        let voiceActive = false;
+        function toggleVoiceAssist() {
+            voiceActive = !voiceActive;
+            const btnLabel = document.getElementById('voice-label');
+            if (voiceActive) {
+                btnLabel.innerText = "Voice Assist: On";
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.speak(new SpeechSynthesisUtterance("Dashboard loaded. Review your past bookings and transaction history."));
+                }
+            } else {
+                btnLabel.innerText = "Voice Assist: Off";
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            }
+        }
+    </script>
+</body>
+</html>
