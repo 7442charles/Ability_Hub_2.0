@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root" class="text-base">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Marketplace - AbilityHub & TalentConnect</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900 transition-colors duration-200" id="body-root">
+
+    <!-- Main Navigation Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleMobileMenu()" class="md:hidden min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-700 hover:text-brand-600 focus:outline-none" aria-label="Open Navigation Menu">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <a href="index.html" class="flex items-center gap-2 text-xl md:text-2xl font-black text-brand-700">
+                    <i class="fa-solid fa-hands-holding-child"></i> AbilityHub & TalentConnect
+                </a>
+            </div>
+            <nav class="hidden md:flex items-center gap-6 font-medium">
+                <a href="index.html" class="hover:text-brand-600">Home</a>
+                <a href="talents.html" class="hover:text-brand-600">Talents</a>
+                <a href="venues.html" class="hover:text-brand-600">Venues</a>
+                <a href="marketplace.html" class="text-brand-600 font-semibold hover:text-brand-700">Marketplace</a>
+                <a href="dashboard.html" class="hover:text-brand-600">My Bookings</a>
+            </nav>
+            <div class="flex items-center gap-3">
+                <button onclick="toggleCartModal()" class="relative min-w-[48px] min-h-[48px] flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full p-2" aria-label="Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping text-lg"></i>
+                    <span id="cart-badge" class="absolute top-0 right-0 bg-brand-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+                </button>
+                <a href="booking.html" class="min-h-[48px] px-5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-lg hidden sm:flex items-center justify-center transition">
+                    Book Talent
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Navigation -->
+    <div id="mobile-drawer-backdrop" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity opacity-0" onclick="toggleMobileMenu()"></div>
+    <div id="mobile-drawer" class="fixed top-0 left-0 bottom-0 w-80 bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-6 border-b border-gray-200 flex items-center justify-between bg-brand-50">
+            <h3 class="font-bold text-lg text-brand-700 flex items-center gap-2">
+                <i class="fa-solid fa-hands-holding-child"></i> Menu
+            </h3>
+            <button onclick="toggleMobileMenu()" class="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-500 hover:text-gray-900" aria-label="Close Menu">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+        <div class="p-6 flex-1 flex flex-col gap-4 overflow-y-auto">
+            <a href="index.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-house w-8 text-gray-500"></i> Home</a>
+            <a href="talents.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-users w-8 text-gray-500"></i> Talents Directory</a>
+            <a href="venues.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-hotel w-8 text-gray-500"></i> Accessible Venues</a>
+            <a href="marketplace.html" class="min-h-[48px] flex items-center px-4 rounded-lg bg-brand-50 text-brand-700 font-semibold"><i class="fa-solid fa-store w-8"></i> Hotel Marketplace</a>
+            <a href="dashboard.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-gauge w-8 text-gray-500"></i> My Bookings Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Floating Accessibility Toolbar -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <div id="accessibility-panel" class="mb-3 w-72 bg-gray-900 text-white p-4 rounded-2xl shadow-2xl border border-gray-700 hidden">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-800">
+                <span class="font-bold text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-universal-access text-brand-500"></i> Accessibility Tools
+                </span>
+                <button onclick="toggleAccessibilityPanel()" class="min-w-[32px] min-h-[32px] text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <span class="text-xs text-gray-400 block mb-1">Dynamic Text Scaling:</span>
+                    <div class="flex items-center gap-2">
+                        <button onclick="adjustFontSize('decrease')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs font-bold">A-</button>
+                        <button onclick="adjustFontSize('reset')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs">Reset</button>
+                        <button onclick="adjustFontSize('increase')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs font-bold">A+</button>
+                    </div>
+                </div>
+                <div>
+                    <button onclick="toggleHighContrast()" class="w-full min-h-[44px] bg-yellow-400 text-gray-900 font-bold rounded-lg hover:bg-yellow-300 transition text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-half-stroke"></i> Toggle High Contrast
+                    </button>
+                </div>
+                <div>
+                    <button onclick="toggleVoiceAssist()" id="voice-btn" class="w-full min-h-[44px] bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-500 transition text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-volume-high"></i> <span id="voice-label">Voice Assist: Off</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button onclick="toggleAccessibilityPanel()" class="min-w-[56px] min-h-[56px] w-14 h-14 bg-brand-600 hover:bg-brand-700 text-white rounded-full shadow-xl flex items-center justify-center text-2xl transition" aria-label="Open Accessibility Menu">
+            <i class="fa-solid fa-universal-access"></i>
+        </button>
+    </div>
+
+    <!-- Main Content Header -->
+    <section class="max-w-7xl mx-auto px-4 py-10">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+            <div>
+                <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">E-Commerce Marketplace</span>
+                <h1 class="text-3xl md:text-4xl font-extrabold mt-1">Artisanal Crafts & Hotel Event Tickets</h1>
+                <p class="text-gray-600 mt-2">Support PWD artisans by purchasing handcrafted goods and hotel event showcase tickets[cite: 2].</p>
+            </div>
+            <button onclick="toggleCartModal()" class="mt-4 md:mt-0 min-h-[48px] px-6 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition shadow">
+                <i class="fa-solid fa-cart-shopping"></i> View Shopping Cart (<span id="cart-count">0</span>)
+            </button>
+        </div>
+
+        <!-- Product Listings Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Product 1 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
+                <img src="https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&q=80&w=600" alt="Handcrafted Soapstone Carving" class="h-56 w-full object-cover">
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-lg">Handcrafted Soapstone Bowl</h3>
+                            <span class="bg-brand-50 text-brand-700 text-xs px-2.5 py-1 rounded-full font-semibold">Craft</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-1">Artisan: <span class="font-medium text-gray-700">Barasa Wanyonyi</span></p>
+                        <p class="text-xs text-gray-500 mb-3"><i class="fa-solid fa-hotel text-brand-600 mr-1"></i> Partner: Sarova Stanley Nairobi</p>
+                        <p class="text-sm text-gray-600 mb-4">Exquisite hand-carved soapstone decorative bowl crafted by skilled local artisans.</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <span class="font-extrabold text-lg text-brand-700">KSh 3,500</span>
+                        <button onclick="addToCart('Handcrafted Soapstone Bowl', 3500, 'Barasa Wanyonyi')" class="min-h-[48px] px-4 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-xl transition text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
+                <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=600" alt="Beaded Leather Artisan Journal" class="h-56 w-full object-cover">
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-lg">Beaded Leather Journal</h3>
+                            <span class="bg-brand-50 text-brand-700 text-xs px-2.5 py-1 rounded-full font-semibold">Craft</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-1">Artisan: <span class="font-medium text-gray-700">Amina Juma</span></p>
+                        <p class="text-xs text-gray-500 mb-3"><i class="fa-solid fa-hotel text-brand-600 mr-1"></i> Partner: Fairmont The Norfolk</p>
+                        <p class="text-sm text-gray-600 mb-4">Hand-stitched leather notebook featuring traditional Kenyan beadwork covers.</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <span class="font-extrabold text-lg text-brand-700">KSh 2,000</span>
+                        <button onclick="addToCart('Beaded Leather Journal', 2000, 'Amina Juma')" class="min-h-[48px] px-4 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-xl transition text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
+                <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&q=80&w=600" alt="AbilityHub Gala Ticket" class="h-56 w-full object-cover">
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-lg">PWD Creative Gala Ticket</h3>
+                            <span class="bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-full font-semibold">Event Ticket</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-1">Host: <span class="font-medium text-gray-700">AbilityHub & Radisson Blu</span></p>
+                        <p class="text-xs text-gray-500 mb-3"><i class="fa-solid fa-hotel text-brand-600 mr-1"></i> Radisson Blu Upper Hill</p>
+                        <p class="text-sm text-gray-600 mb-4">Single entry ticket for the Annual Inclusive Creators Showcase and Dinner Gala.</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <span class="font-extrabold text-lg text-brand-700">KSh 5,000</span>
+                        <button onclick="addToCart('PWD Creative Gala Ticket', 5000, 'Radisson Blu')" class="min-h-[48px] px-4 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-xl transition text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-6 bg-brand-50 border-b border-gray-200 flex items-center justify-between">
+                <h3 class="font-bold text-lg text-brand-700 flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping"></i> Your Shopping Cart[cite: 2]
+                </h3>
+                <button onclick="toggleCartModal()" class="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-500 hover:text-gray-900" aria-label="Close Cart">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div id="cart-items-container" class="p-6 flex-1 overflow-y-auto space-y-4">
+                <!-- Dynamically populated items -->
+                <p class="text-gray-500 text-center py-8">Your cart is currently empty.</p>
+            </div>
+            <div class="p-6 border-t border-gray-200 bg-gray-50">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="font-semibold text-gray-700">Total Cost[cite: 2]:</span>
+                    <span id="cart-total" class="font-black text-xl text-brand-700">KSh 0</span>
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="toggleCartModal()" class="flex-1 min-h-[48px] bg-gray-200 hover:bg-gray-300 font-semibold rounded-xl transition text-gray-700 text-sm">
+                        Continue Shopping
+                    </button>
+                    <button onclick="proceedToCheckout()" id="checkout-btn" class="flex-1 min-h-[48px] bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl transition text-sm flex items-center justify-center gap-2 shadow opacity-50 cursor-not-allowed" disabled>
+                        Proceed to Checkout <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 border-t border-gray-800 mt-20">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-gray-500">
+            &copy; 2026 AbilityHub & TalentConnect Platform. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- JavaScript Controllers & Shopping Cart Logic -->
+    <script>
+        let cart = [];
+
+        function addToCart(name, price, artisan) {
+            cart.push({ name, price, artisan });
+            updateCartUI();
+            alert(`${name} added to cart successfully!`);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('cart-badge').innerText = cart.length;
+
+            const container = document.getElementById('cart-items-container');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">Your cart is currently empty.</p>';
+                document.getElementById('cart-total').innerText = 'KSh 0';
+                checkoutBtn.disabled = true;
+                checkoutBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                html += `
+                    <div class="flex items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl">
+                        <div>
+                            <h4 class="font-bold text-sm">${item.name}</h4>
+                            <p class="text-xs text-gray-500">By ${item.artisan}</p>
+                            <p class="text-sm font-bold text-brand-700 mt-1">KSh ${item.price.toLocaleString()}</p>
+                        </div>
+                        <button onclick="removeFromCart(${index})" class="min-w-[40px] min-h-[40px] bg-red-50 text-red-600 hover:bg-red-100 rounded-lg flex items-center justify-center transition" aria-label="Remove Item">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            document.getElementById('cart-total').innerText = `KSh ${total.toLocaleString()}`;
+            checkoutBtn.disabled = false;
+            checkoutBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        function toggleCartModal() {
+            const modal = document.getElementById('cart-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        function proceedToCheckout() {
+            localStorage.setItem('abilityhub_cart', JSON.stringify(cart));
+            window.location.href = 'booking.html?checkout=marketplace';
+        }
+
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobile-drawer');
+            const backdrop = document.getElementById('mobile-drawer-backdrop');
+            const isOpen = !drawer.classList.contains('-translate-x-full');
+            if (isOpen) {
+                drawer.classList.add('-translate-x-full');
+                backdrop.classList.add('opacity-0', 'hidden');
+            } else {
+                drawer.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+                setTimeout(() => { backdrop.classList.remove('opacity-0'); backdrop.classList.add('opacity-100'); }, 10);
+            }
+        }
+
+        function toggleAccessibilityPanel() {
+            document.getElementById('accessibility-panel').classList.toggle('hidden');
+        }
+
+        let currentScaleIndex = 1;
+        const scales = ['text-sm', 'text-base', 'text-lg', 'text-xl'];
+        function adjustFontSize(action) {
+            const htmlRoot = document.getElementById('html-root');
+            htmlRoot.classList.remove(scales[currentScaleIndex]);
+            if (action === 'increase' && currentScaleIndex < scales.length - 1) currentScaleIndex++;
+            else if (action === 'decrease' && currentScaleIndex > 0) currentScaleIndex--;
+            else if (action === 'reset') currentScaleIndex = 1;
+            htmlRoot.classList.add(scales[currentScaleIndex]);
+        }
+
+        let highContrastActive = false;
+        function toggleHighContrast() {
+            highContrastActive = !highContrastActive;
+            const body = document.getElementById('body-root');
+            if (highContrastActive) {
+                body.classList.remove('bg-gray-50', 'text-gray-900');
+                body.classList.add('bg-black', 'text-yellow-300');
+            } else {
+                body.classList.remove('bg-black', 'text-yellow-300');
+                body.classList.add('bg-gray-50', 'text-gray-900');
+            }
+        }
+
+        let voiceActive = false;
+        function toggleVoiceAssist() {
+            voiceActive = !voiceActive;
+            const btnLabel = document.getElementById('voice-label');
+            if (voiceActive) {
+                btnLabel.innerText = "Voice Assist: On";
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.speak(new SpeechSynthesisUtterance("Hotel marketplace loaded. Add artisanal crafts or event tickets to your shopping cart."));
+                }
+            } else {
+                btnLabel.innerText = "Voice Assist: Off";
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            }
+        }
+    </script>
+</body>
+</html>

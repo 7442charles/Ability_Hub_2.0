@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AbilityHub & TalentConnect</title>
+    <title>AbilityHub & TalentConnect - Empowering PWD Creators & Hospitality</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -27,40 +27,20 @@
 </head>
 <body class="bg-gray-50 text-gray-900 transition-colors duration-200" id="body-root">
 
-    <!-- Accessibility Control Bar -->
-    <div class="bg-gray-900 text-white py-2 px-4 text-sm sticky top-0 z-50 shadow-md">
-        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-            <span class="font-semibold flex items-center gap-2">
-                <i class="fa-solid fa-universal-access text-brand-600 text-lg"></i> Accessibility Controls:
-            </span>
-            <div class="flex items-center gap-3 flex-wrap">
-                <!-- Text Scaling -->
-                <div class="flex items-center gap-1 bg-gray-800 rounded px-2 py-1">
-                    <span class="text-xs mr-1">Text Size:</span>
-                    <button onclick="adjustFontSize('decrease')" class="min-w-[32px] min-h-[32px] px-2 py-1 bg-gray-700 hover:bg-gray-600 rounded text-xs font-bold" aria-label="Decrease Font Size">-</button>
-                    <button onclick="adjustFontSize('reset')" class="min-w-[32px] min-h-[32px] px-2 py-1 bg-gray-700 hover:bg-gray-600 rounded text-xs" aria-label="Reset Font Size">Reset</button>
-                    <button onclick="adjustFontSize('increase')" class="min-w-[32px] min-h-[32px] px-2 py-1 bg-gray-700 hover:bg-gray-600 rounded text-xs font-bold" aria-label="Increase Font Size">+</button>
-                </div>
-                <!-- High Contrast Toggle -->
-                <button onclick="toggleHighContrast()" class="min-h-[40px] px-3 py-1 bg-yellow-400 text-gray-900 font-bold rounded hover:bg-yellow-300 transition flex items-center gap-1 text-xs">
-                    <i class="fa-solid fa-circle-half-stroke"></i> High Contrast
-                </button>
-                <!-- Voice Assist / Screen Reader Toggle -->
-                <button onclick="toggleVoiceAssist()" id="voice-btn" class="min-h-[40px] px-3 py-1 bg-blue-600 text-white font-semibold rounded hover:bg-blue-500 transition flex items-center gap-1 text-xs">
-                    <i class="fa-solid fa-volume-high"></i> <span id="voice-label">Voice Assist: Off</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Main Navigation Header -->
-    <header class="bg-white shadow-sm border-b border-gray-200">
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-            <a href="index.html" class="flex items-center gap-2 text-2xl font-black text-brand-700">
-                <i class="fa-solid fa-hands-holding-child"></i> AbilityHub & TalentConnect
-            </a>
+            <div class="flex items-center gap-3">
+                <!-- Mobile Menu Hamburger Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-700 hover:text-brand-600 focus:outline-none" aria-label="Open Navigation Menu">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <a href="index.html" class="flex items-center gap-2 text-xl md:text-2xl font-black text-brand-700">
+                    <i class="fa-solid fa-hands-holding-child"></i> AbilityHub & TalentConnect
+                </a>
+            </div>
             <nav class="hidden md:flex items-center gap-6 font-medium">
-                <a href="index.html" class="text-brand-600 hover:text-brand-700">Home</a>
+                <a href="index.html" class="text-brand-600 font-semibold hover:text-brand-700">Home</a>
                 <a href="talents.html" class="hover:text-brand-600">Talents</a>
                 <a href="venues.html" class="hover:text-brand-600">Venues</a>
                 <a href="marketplace.html" class="hover:text-brand-600">Marketplace</a>
@@ -71,24 +51,91 @@
                     <i class="fa-solid fa-cart-shopping text-lg"></i>
                     <span id="cart-badge" class="absolute top-0 right-0 bg-brand-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
                 </a>
-                <a href="booking.html" class="min-h-[48px] px-5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-lg flex items-center justify-center transition">
+                <a href="booking.html" class="min-h-[48px] px-5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-lg hidden sm:flex items-center justify-center transition">
                     Book Talent
                 </a>
             </div>
         </div>
     </header>
 
+    <!-- Mobile Drawer Navigation -->
+    <div id="mobile-drawer-backdrop" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity opacity-0" onclick="toggleMobileMenu()"></div>
+    <div id="mobile-drawer" class="fixed top-0 left-0 bottom-0 w-80 bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-6 border-b border-gray-200 flex items-center justify-between bg-brand-50">
+            <h3 class="font-bold text-lg text-brand-700 flex items-center gap-2">
+                <i class="fa-solid fa-hands-holding-child"></i> Ability Hub
+            </h3>
+            <button onclick="toggleMobileMenu()" class="min-w-[48px] min-h-[48px] flex items-center justify-center text-gray-500 hover:text-gray-900" aria-label="Close Menu">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+        <div class="p-6 flex-1 flex flex-col gap-4 overflow-y-auto">
+            <a href="index.html" class="min-h-[48px] flex items-center px-4 rounded-lg bg-brand-50 text-brand-700 font-semibold"><i class="fa-solid fa-house w-8"></i> Home</a>
+            <a href="talents.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-users w-8 text-gray-500"></i> Talents Directory</a>
+            <a href="venues.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-hotel w-8 text-gray-500"></i> Accessible Venues</a>
+            <a href="marketplace.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-store w-8 text-gray-500"></i> Hotel Marketplace</a>
+            <a href="dashboard.html" class="min-h-[48px] flex items-center px-4 rounded-lg hover:bg-gray-100 font-medium"><i class="fa-solid fa-gauge w-8 text-gray-500"></i> My Bookings Dashboard</a>
+            <hr class="my-2">
+            <a href="booking.html" class="min-h-[48px] bg-brand-600 text-white rounded-lg flex items-center justify-center font-semibold shadow">
+                Book Talent Now
+            </a>
+        </div>
+    </div>
+
+    <!-- Floating Accessibility Toolbar (Bottom-Right) -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <!-- Collapsible Controls Panel -->
+        <div id="accessibility-panel" class="mb-3 w-72 bg-gray-900 text-white p-4 rounded-2xl shadow-2xl border border-gray-700 hidden transform scale-95 transition-all">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-800">
+                <span class="font-bold text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-universal-access text-brand-500"></i> Accessibility Tools
+                </span>
+                <button onclick="toggleAccessibilityPanel()" class="min-w-[32px] min-h-[32px] text-gray-400 hover:text-white" aria-label="Close Accessibility Panel">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <!-- Text Scaling -->
+                <div>
+                    <span class="text-xs text-gray-400 block mb-1">Dynamic Text Scaling:</span>
+                    <div class="flex items-center gap-2">
+                        <button onclick="adjustFontSize('decrease')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs font-bold" aria-label="Decrease Font Size">A-</button>
+                        <button onclick="adjustFontSize('reset')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs" aria-label="Reset Font Size">Reset</button>
+                        <button onclick="adjustFontSize('increase')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs font-bold" aria-label="Increase Font Size">A+</button>
+                    </div>
+                </div>
+                <!-- High Contrast Mode Toggle -->
+                <div>
+                    <button onclick="toggleHighContrast()" class="w-full min-h-[44px] bg-yellow-400 text-gray-900 font-bold rounded-lg hover:bg-yellow-300 transition flex items-center justify-center gap-2 text-xs">
+                        <i class="fa-solid fa-circle-half-stroke"></i> Toggle High Contrast
+                    </button>
+                </div>
+                <!-- Voice Assist Toggle -->
+                <div>
+                    <button onclick="toggleVoiceAssist()" id="voice-btn" class="w-full min-h-[44px] bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-500 transition flex items-center justify-center gap-2 text-xs">
+                        <i class="fa-solid fa-volume-high"></i> <span id="voice-label">Voice Assist: Off</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Trigger Button -->
+        <button onclick="toggleAccessibilityPanel()" class="min-w-[56px] min-h-[56px] w-14 h-14 bg-brand-600 hover:bg-brand-700 text-white rounded-full shadow-xl flex items-center justify-center text-2xl transition transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-brand-500/50" aria-label="Open Accessibility Menu">
+            <i class="fa-solid fa-universal-access"></i>
+        </button>
+    </div>
+
     <!-- Hero Section -->
-    <section class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <section class="max-w-7xl mx-auto px-4 py-12 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div>
             <span class="inline-block bg-brand-50 text-brand-700 text-sm font-bold px-3 py-1 rounded-full mb-4">Empowering PWD Creators & Hospitality</span>
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-6">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-6">
                 Connecting Inclusive Venues with Exceptional PWD Talent.
             </h1>
-            <p class="text-lg text-gray-600 mb-8">
-                Discover skilled musicians, artists, speakers, chefs, and artisan crafts. Experience fully accessible event bookings backed by M-Pesa secure payments.
+            <p class="text-base sm:text-lg text-gray-600 mb-8">
+                Discover skilled musicians, artists, speakers, chefs, and artisan crafts. Experience fully accessible event bookings backed by secure M-Pesa mobile money integration.
             </p>
-            <div class="flex flex-wrap gap-4">
+            <div class="flex flex-col sm:flex-row gap-4">
                 <a href="talents.html" class="min-h-[48px] px-6 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-lg flex items-center justify-center transition shadow">
                     Explore Talents
                 </a>
@@ -97,8 +144,10 @@
                 </a>
             </div>
         </div>
-        <div class="bg-brand-50 p-8 rounded-2xl border border-brand-600/20 shadow-inner">
-            <h3 class="text-xl font-bold mb-4 text-brand-700"><i class="fa-solid fa-star text-yellow-500"></i> Featured Talent Highlight</h3>
+        <div class="bg-brand-50 p-6 md:p-8 rounded-2xl border border-brand-600/20 shadow-inner">
+            <h3 class="text-xl font-bold mb-4 text-brand-700 flex items-center gap-2">
+                <i class="fa-solid fa-star text-yellow-500"></i> Featured Talent Highlight
+            </h3>
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                 <div class="flex items-center gap-4 mb-4">
                     <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200" alt="Amina Juma and others" class="w-16 h-16 rounded-full object-cover border-2 border-brand-600">
@@ -116,8 +165,200 @@
         </div>
     </section>
 
-    <!-- Vanilla JS Accessibility & App Controller -->
+    <!-- Platform Categories Section -->
+    <section class="bg-white py-16 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="text-2xl md:text-3xl font-extrabold mb-3">Explore Talent Categories</h2>
+                <p class="text-gray-600">Professionals across creative and hospitality sectors ready for your upcoming hotel events and conferences.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+                <a href="talents.html?category=Music" class="p-6 bg-gray-50 hover:bg-brand-50 border border-gray-200 hover:border-brand-600 rounded-xl text-center transition group">
+                    <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-full flex items-center justify-center mx-auto mb-3 text-xl group-hover:scale-110 transition">
+                        <i class="fa-solid fa-music"></i>
+                    </div>
+                    <h3 class="font-bold mb-1">Music & Bands</h3>
+                    <span class="text-xs text-gray-500">Live Performers</span>
+                </a>
+                <a href="talents.html?category=FineArts" class="p-6 bg-gray-50 hover:bg-brand-50 border border-gray-200 hover:border-brand-600 rounded-xl text-center transition group">
+                    <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-full flex items-center justify-center mx-auto mb-3 text-xl group-hover:scale-110 transition">
+                        <i class="fa-solid fa-palette"></i>
+                    </div>
+                    <h3 class="font-bold mb-1">Fine Arts</h3>
+                    <span class="text-xs text-gray-500">Painters & Sculptors</span>
+                </a>
+                <a href="talents.html?category=Speaking" class="p-6 bg-gray-50 hover:bg-brand-50 border border-gray-200 hover:border-brand-600 rounded-xl text-center transition group">
+                    <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-full flex items-center justify-center mx-auto mb-3 text-xl group-hover:scale-110 transition">
+                        <i class="fa-solid fa-microphone-lines"></i>
+                    </div>
+                    <h3 class="font-bold mb-1">Public Speaking</h3>
+                    <span class="text-xs text-gray-500">Keynotes & Panels</span>
+                </a>
+                <a href="talents.html?category=Culinary" class="p-6 bg-gray-50 hover:bg-brand-50 border border-gray-200 hover:border-brand-600 rounded-xl text-center transition group">
+                    <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-full flex items-center justify-center mx-auto mb-3 text-xl group-hover:scale-110 transition">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <h3 class="font-bold mb-1">Culinary Chefs</h3>
+                    <span class="text-xs text-gray-500">Master Chefs</span>
+                </a>
+                <a href="marketplace.html" class="col-span-2 md:col-span-1 p-6 bg-gray-50 hover:bg-brand-50 border border-gray-200 hover:border-brand-600 rounded-xl text-center transition group">
+                    <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-full flex items-center justify-center mx-auto mb-3 text-xl group-hover:scale-110 transition">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                    <h3 class="font-bold mb-1">Crafts & Market</h3>
+                    <span class="text-xs text-gray-500">Artisanal Goods</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Verified Accessible Venues Preview -->
+    <section class="py-16 max-w-7xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div>
+                <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Hospitality Partners</span>
+                <h2 class="text-2xl md:text-3xl font-extrabold mt-1">Verified Accessible Venues</h2>
+            </div>
+            <a href="venues.html" class="mt-4 md:mt-0 font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-2">
+                View All Venues <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Venue Card 1 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
+                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=600" alt="Sarova Stanley Nairobi" class="h-48 w-full object-cover">
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-lg">Sarova Stanley Nairobi</h3>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded font-medium">Verified</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-4"><i class="fa-solid fa-location-dot text-brand-600 mr-1"></i> Nairobi CBD, Kenya</p>
+                        <div class="flex flex-wrap gap-1.5 mb-4">
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">Wheelchair Ramps</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">Braille Signage</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">Accessible Stages</span>
+                        </div>
+                    </div>
+                    <a href="venues.html" class="w-full min-h-[48px] bg-gray-100 hover:bg-gray-200 font-semibold rounded-lg flex items-center justify-center transition text-sm">
+                        View Details
+                    </a>
+                </div>
+            </div>
+            <!-- Venue Card 2 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
+                <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&q=80&w=600" alt="Fairmont The Norfolk" class="h-48 w-full object-cover">
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-lg">Fairmont The Norfolk</h3>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded font-medium">Verified</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-4"><i class="fa-solid fa-location-dot text-brand-600 mr-1"></i> Harry Thuku Rd, Nairobi</p>
+                        <div class="flex flex-wrap gap-1.5 mb-4">
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">Sign Language Staff</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">Accessible Elevators</span>
+                        </div>
+                    </div>
+                    <a href="venues.html" class="w-full min-h-[48px] bg-gray-100 hover:bg-gray-200 font-semibold rounded-lg flex items-center justify-center transition text-sm">
+                        View Details
+                    </a>
+                </div>
+            </div>
+            <!-- Venue Card 3 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
+                <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&q=80&w=600" alt="Radisson Blu Hotel" class="h-48 w-full object-cover">
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-lg">Radisson Blu Upper Hill</h3>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded font-medium">Verified</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-4"><i class="fa-solid fa-location-dot text-brand-600 mr-1"></i> Upper Hill, Nairobi</p>
+                        <div class="flex flex-wrap gap-1.5 mb-4">
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">Wheelchair Ramps</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">Accessible Stages</span>
+                        </div>
+                    </div>
+                    <a href="venues.html" class="w-full min-h-[48px] bg-gray-100 hover:bg-gray-200 font-semibold rounded-lg flex items-center justify-center transition text-sm">
+                        View Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+                <h3 class="text-lg font-bold mb-4 flex items-center gap-2 text-brand-500">
+                    <i class="fa-solid fa-hands-holding-child"></i> AbilityHub & TalentConnect
+                </h3>
+                <p class="text-sm text-gray-400">
+                    Empowering PWD creators and connecting them with inclusive hospitality venues and digital marketplaces across Kenya and beyond.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-3">Quick Links</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="talents.html" class="hover:text-white">Talent Directory</a></li>
+                    <li><a href="venues.html" class="hover:text-white">Accessible Venues</a></li>
+                    <li><a href="marketplace.html" class="hover:text-white">Hotel Marketplace</a></li>
+                    <li><a href="dashboard.html" class="hover:text-white">My Bookings & Dashboard</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-3">Accessibility Standards</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li>Dynamic Text Scaling</li>
+                    <li>High-Contrast Mode</li>
+                    <li>Voice / Audio Assist</li>
+                    <li>Large Touch Targets (48x48px)</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-3">Secure Payments</h4>
+                <p class="text-sm text-gray-400 mb-3">Powered by Safaricom M-Pesa STK Push simulation and secure transactions.</p>
+                <div class="flex items-center gap-2 text-xs bg-gray-800 px-3 py-2 rounded border border-gray-700">
+                    <i class="fa-solid fa-shield-halved text-brand-500 text-base"></i>
+                    <span>SSL Secured & Verified M-Pesa API Integration</span>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 pt-8 border-t border-gray-800 text-center text-sm text-gray-500">
+            &copy; 2026 AbilityHub & TalentConnect Platform. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- JavaScript Controllers -->
     <script>
+        // Mobile Drawer Toggle
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobile-drawer');
+            const backdrop = document.getElementById('mobile-drawer-backdrop');
+            const isOpen = !drawer.classList.contains('-translate-x-full');
+
+            if (isOpen) {
+                drawer.classList.add('-translate-x-full');
+                backdrop.classList.add('opacity-0', 'hidden');
+                backdrop.classList.remove('opacity-100');
+            } else {
+                drawer.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+                setTimeout(() => {
+                    backdrop.classList.remove('opacity-0');
+                    backdrop.classList.add('opacity-100');
+                }, 10);
+            }
+        }
+
+        // Floating Accessibility Panel Toggle
+        function toggleAccessibilityPanel() {
+            const panel = document.getElementById('accessibility-panel');
+            panel.classList.toggle('hidden');
+        }
+
         // Font Scaling Logic
         let currentScaleIndex = 1;
         const scales = ['text-sm', 'text-base', 'text-lg', 'text-xl'];
@@ -149,28 +390,17 @@
             }
         }
 
-        // Voice Assist / Speech Synthesis Toggle
+        // Voice Assist Toggle
         let voiceActive = false;
         function toggleVoiceAssist() {
             voiceActive = !voiceActive;
             const btnLabel = document.getElementById('voice-label');
             if (voiceActive) {
                 btnLabel.innerText = "Voice Assist: On";
-                speakText("Voice assist enabled. Hover over or click platform content to read aloud.");
-                document.addEventListener('mouseover', handleVoiceHover);
+                speakText("Voice assist enabled. AbilityHub & TalentConnect loaded successfully.");
             } else {
                 btnLabel.innerText = "Voice Assist: Off";
-                document.removeEventListener('mouseover', handleVoiceHover);
                 window.speechSynthesis.cancel();
-            }
-        }
-
-        function handleVoiceHover(e) {
-            if (e.target && e.target.innerText && e.target.innerText.trim().length > 0 && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'A') {
-                // Throttle or speak short snippets
-                // window.speechSynthesis.cancel();
-                // const utterance = new SpeechSynthesisUtterance(e.target.innerText.substring(0, 100));
-                // window.speechSynthesis.speak(utterance);
             }
         }
 
