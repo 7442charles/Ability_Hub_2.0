@@ -18,6 +18,7 @@
                             50: '#f0fdf4',
                             600: '#16a34a',
                             700: '#15803d',
+                            800: '#0f766e',
                         }
                     }
                 }
@@ -84,7 +85,6 @@
 
     <!-- Floating Accessibility Toolbar (Bottom-Right) -->
     <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
-        <!-- Collapsible Controls Panel -->
         <div id="accessibility-panel" class="mb-3 w-72 bg-gray-900 text-white p-4 rounded-2xl shadow-2xl border border-gray-700 hidden transform scale-95 transition-all">
             <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-800">
                 <span class="font-bold text-sm flex items-center gap-2">
@@ -95,7 +95,6 @@
                 </button>
             </div>
             <div class="space-y-4">
-                <!-- Text Scaling -->
                 <div>
                     <span class="text-xs text-gray-400 block mb-1">Dynamic Text Scaling:</span>
                     <div class="flex items-center gap-2">
@@ -104,13 +103,11 @@
                         <button onclick="adjustFontSize('increase')" class="flex-1 min-h-[40px] bg-gray-800 hover:bg-gray-700 rounded text-xs font-bold" aria-label="Increase Font Size">A+</button>
                     </div>
                 </div>
-                <!-- High Contrast Mode Toggle -->
                 <div>
                     <button onclick="toggleHighContrast()" class="w-full min-h-[44px] bg-yellow-400 text-gray-900 font-bold rounded-lg hover:bg-yellow-300 transition flex items-center justify-center gap-2 text-xs">
                         <i class="fa-solid fa-circle-half-stroke"></i> Toggle High Contrast
                     </button>
                 </div>
-                <!-- Voice Assist Toggle -->
                 <div>
                     <button onclick="toggleVoiceAssist()" id="voice-btn" class="w-full min-h-[44px] bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-500 transition flex items-center justify-center gap-2 text-xs">
                         <i class="fa-solid fa-volume-high"></i> <span id="voice-label">Voice Assist: Off</span>
@@ -118,8 +115,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Floating Trigger Button -->
         <button onclick="toggleAccessibilityPanel()" class="min-w-[56px] min-h-[56px] w-14 h-14 bg-brand-600 hover:bg-brand-700 text-white rounded-full shadow-xl flex items-center justify-center text-2xl transition transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-brand-500/50" aria-label="Open Accessibility Menu">
             <i class="fa-solid fa-universal-access"></i>
         </button>
@@ -150,64 +145,190 @@
             </h3>
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                 <div class="flex items-center gap-4 mb-4">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200" alt="Amina Juma and others" class="w-16 h-16 rounded-full object-cover border-2 border-brand-600">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200" alt="Grace Wanjiku and others" class="w-16 h-16 rounded-full object-cover border-2 border-brand-600">
                     <div>
-                        <h4 class="font-bold text-lg">Amina Juma and others</h4>
-                        <p class="text-sm text-gray-500">Music & Vocalist • Visual Impairment</p>
+                        <h4 class="font-bold text-lg">Grace Wanjiku and others</h4>
+                        <p class="text-sm text-gray-500">Music & Vocalist • Visually Impaired</p>
                         <span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded mt-1">★ 4.9 (Nairobi, Kenya)</span>
                     </div>
                 </div>
-                <p class="text-sm text-gray-600 mb-4">Soulful afro-fusion vocalist performing live acoustic sets across luxury partner hotels and resorts.</p>
-                <a href="booking.html" class="w-full min-h-[48px] bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg flex items-center justify-center transition">
-                    Book Amina Now
+                <p class="text-sm text-gray-600 mb-4">Passionate afro-fusion vocalist and acoustic guitarist performing live at high-end resort galas.</p>
+                <a href="booking.html?talent=Grace+Wanjiku" class="w-full min-h-[48px] bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg flex items-center justify-center transition">
+                    Book Grace Now
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Platform Categories Section -->
-    <section class="bg-white py-16 border-t border-gray-200">
+    <!-- FEATURED PWD TALENTS & CREATORS -->
+    <section class="py-16 bg-white border-t border-gray-200">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center max-w-2xl mx-auto mb-12">
-                <h2 class="text-2xl md:text-3xl font-extrabold mb-3">Explore Talent Categories</h2>
-                <p class="text-gray-600">Professionals across creative and hospitality sectors ready for your upcoming hotel events and conferences.</p>
+            <!-- Section Header + Controls -->
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-10">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2">Featured PWD Talents & Creators</h2>
+                    <p class="text-gray-600 text-sm md:text-base">Discover, hire, and support incredibly skilled individuals for hotel performances, exhibitions, and corporate gigs.</p>
+                </div>
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
+                        <input type="text" id="home-search" onkeyup="filterHomeTalents()" placeholder="Search name or skill..." class="w-full sm:w-64 min-h-[44px] pl-10 pr-4 bg-white border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none">
+                    </div>
+                    <select id="home-category" onchange="filterHomeTalents()" class="min-h-[44px] px-4 bg-white border border-gray-300 rounded-xl text-sm font-medium text-gray-700 focus:ring-2 focus:ring-brand-600 focus:outline-none">
+                        <option value="All">All Categories</option>
+                        <option value="Music">Music</option>
+                        <option value="Fine Arts">Fine Arts</option>
+                        <option value="Public Speaking">Public Speaking</option>
+                        <option value="Culinary">Culinary</option>
+                    </select>
+                </div>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
-                <a href="talents.html?category=Music" class="p-6 bg-gray-50 hover:bg-brand-50 border border-gray-200 hover:border-brand-600 rounded-xl text-center transition group">
-                    <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-full flex items-center justify-center mx-auto mb-3 text-xl group-hover:scale-110 transition">
-                        <i class="fa-solid fa-music"></i>
+
+            <!-- Cards Grid -->
+            <div id="home-talent-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Card 1: Music -->
+                <div class="home-talent-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="Music" data-text="grace wanjiku acoustic soloist vocalist live jazz gala events">
+                    <div>
+                        <div class="relative h-52 w-full bg-gray-900">
+                            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=600" alt="Grace Wanjiku and others" class="h-full w-full object-cover opacity-90">
+                            <span class="absolute top-3 right-3 bg-black/80 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Music</span>
+                            <div class="absolute bottom-3 left-3 bg-amber-500 text-gray-950 font-bold text-xs px-3 py-1 rounded-full flex items-center gap-1.5 shadow">
+                                <i class="fa-solid fa-universal-access"></i> Visually Impaired
+                            </div>
+                        </div>
+
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="font-black text-xl text-gray-900">Grace Wanjiku and others</h3>
+                                <div class="flex items-center gap-1 text-amber-500 font-bold text-sm bg-amber-50 px-2 py-0.5 rounded">
+                                    <i class="fa-solid fa-star text-xs"></i> 4.9
+                                </div>
+                            </div>
+                            <p class="text-sm font-semibold text-brand-700 mb-3">Acoustic Soloist & Vocalist</p>
+                            <p class="text-sm text-gray-600 mb-5 leading-relaxed">
+                                Passionate afro-fusion vocalist and acoustic guitarist with 6+ years experience performing at high-end resort galas.
+                            </p>
+
+                            <div class="bg-emerald-50/80 border border-emerald-100 rounded-xl p-3.5 mb-5">
+                                <span class="block text-[11px] font-extrabold text-teal-800 uppercase tracking-wider mb-1">Accessibility Stage Needs:</span>
+                                <p class="text-xs text-teal-900 font-medium">Requires tactile stage edge markers & guide assistant.</p>
+                            </div>
+
+                            <div class="flex flex-wrap gap-1.5 mb-2">
+                                <span class="bg-gray-100 text-gray-700 text-xs px-2.5 py-1 rounded-md font-medium">Acoustic Guitar</span>
+                                <span class="bg-gray-100 text-gray-700 text-xs px-2.5 py-1 rounded-md font-medium">Vocalist</span>
+                                <span class="bg-gray-100 text-gray-700 text-xs px-2.5 py-1 rounded-md font-medium">Live Jazz</span>
+                                <span class="bg-gray-100 text-gray-700 text-xs px-2.5 py-1 rounded-md font-medium">Gala Events</span>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="font-bold mb-1">Music & Bands</h3>
-                    <span class="text-xs text-gray-500">Live Performers</span>
-                </a>
-                <a href="talents.html?category=FineArts" class="p-6 bg-gray-50 hover:bg-brand-50 border border-gray-200 hover:border-brand-600 rounded-xl text-center transition group">
-                    <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-full flex items-center justify-center mx-auto mb-3 text-xl group-hover:scale-110 transition">
-                        <i class="fa-solid fa-palette"></i>
+
+                    <div class="p-6 pt-0 flex items-center justify-between gap-3 border-t border-gray-100 mt-4 pt-4">
+                        <div>
+                            <span class="block text-[10px] text-gray-400 uppercase font-bold tracking-wider">Booking Rate</span>
+                            <span class="text-lg font-black text-gray-900">KES 15,000</span>
+                        </div>
+                        <a href="booking.html?talent=Grace+Wanjiku" class="min-h-[44px] px-4 bg-teal-700 hover:bg-teal-800 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-2 transition shadow">
+                            <i class="fa-solid fa-calendar-check"></i> Book for Hotel Gig
+                        </a>
                     </div>
-                    <h3 class="font-bold mb-1">Fine Arts</h3>
-                    <span class="text-xs text-gray-500">Painters & Sculptors</span>
-                </a>
-                <a href="talents.html?category=Speaking" class="p-6 bg-gray-50 hover:bg-brand-50 border border-gray-200 hover:border-brand-600 rounded-xl text-center transition group">
-                    <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-full flex items-center justify-center mx-auto mb-3 text-xl group-hover:scale-110 transition">
-                        <i class="fa-solid fa-microphone-lines"></i>
+                </div>
+
+                <!-- Card 2: Fine Arts -->
+                <div class="home-talent-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="Fine Arts" data-text="dennis omondi mouth painter canvas artist live painting oil on canvas art exhibition">
+                    <div>
+                        <div class="relative h-52 w-full bg-gray-900">
+                            <img src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=600" alt="Dennis Omondi and others" class="h-full w-full object-cover opacity-90">
+                            <span class="absolute top-3 right-3 bg-black/80 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Fine Arts</span>
+                            <div class="absolute bottom-3 left-3 bg-amber-500 text-gray-950 font-bold text-xs px-3 py-1 rounded-full flex items-center gap-1.5 shadow">
+                                <i class="fa-solid fa-wheelchair"></i> Physical Disability (Quadriplegic)
+                            </div>
+                        </div>
+
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="font-black text-xl text-gray-900">Dennis Omondi and others</h3>
+                                <div class="flex items-center gap-1 text-amber-500 font-bold text-sm bg-amber-50 px-2 py-0.5 rounded">
+                                    <i class="fa-solid fa-star text-xs"></i> 5.0
+                                </div>
+                            </div>
+                            <p class="text-sm font-semibold text-brand-700 mb-3">Mouth Painter & Canvas Artist</p>
+                            <p class="text-sm text-gray-600 mb-5 leading-relaxed">
+                                Internationally recognized canvas painter creating vibrant coastal landscapes live during hotel art exhibitions.
+                            </p>
+
+                            <div class="bg-emerald-50/80 border border-emerald-100 rounded-xl p-3.5 mb-5">
+                                <span class="block text-[11px] font-extrabold text-teal-800 uppercase tracking-wider mb-1">Accessibility Stage Needs:</span>
+                                <p class="text-xs text-teal-900 font-medium">Wheelchair accessible display easel and ramped stage.</p>
+                            </div>
+
+                            <div class="flex flex-wrap gap-1.5 mb-2">
+                                <span class="bg-gray-100 text-gray-700 text-xs px-2.5 py-1 rounded-md font-medium">Live Painting</span>
+                                <span class="bg-gray-100 text-gray-700 text-xs px-2.5 py-1 rounded-md font-medium">Oil on Canvas</span>
+                                <span class="bg-gray-100 text-gray-700 text-xs px-2.5 py-1 rounded-md font-medium">Art Exhibition</span>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="font-bold mb-1">Public Speaking</h3>
-                    <span class="text-xs text-gray-500">Keynotes & Panels</span>
-                </a>
-                <a href="talents.html?category=Culinary" class="p-6 bg-gray-50 hover:bg-brand-50 border border-gray-200 hover:border-brand-600 rounded-xl text-center transition group">
-                    <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-full flex items-center justify-center mx-auto mb-3 text-xl group-hover:scale-110 transition">
-                        <i class="fa-solid fa-utensils"></i>
+
+                    <div class="p-6 pt-0 flex items-center justify-between gap-3 border-t border-gray-100 mt-4 pt-4">
+                        <div>
+                            <span class="block text-[10px] text-gray-400 uppercase font-bold tracking-wider">Booking Rate</span>
+                            <span class="text-lg font-black text-gray-900">KES 12,000</span>
+                        </div>
+                        <a href="booking.html?talent=Dennis+Omondi" class="min-h-[44px] px-4 bg-teal-700 hover:bg-teal-800 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-2 transition shadow">
+                            <i class="fa-solid fa-calendar-check"></i> Book for Hotel Gig
+                        </a>
                     </div>
-                    <h3 class="font-bold mb-1">Culinary Chefs</h3>
-                    <span class="text-xs text-gray-500">Master Chefs</span>
-                </a>
-                <a href="marketplace.html" class="col-span-2 md:col-span-1 p-6 bg-gray-50 hover:bg-brand-50 border border-gray-200 hover:border-brand-600 rounded-xl text-center transition group">
-                    <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-full flex items-center justify-center mx-auto mb-3 text-xl group-hover:scale-110 transition">
-                        <i class="fa-solid fa-store"></i>
+                </div>
+
+                <!-- Card 3: Public Speaking -->
+                <div class="home-talent-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="Public Speaking" data-text="amina hassan inclusion resilience speaker deaf speaker sign language keynote address diversity youth empowerment">
+                    <div>
+                        <div class="relative h-52 w-full bg-gray-900">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600" alt="Amina Hassan and others" class="h-full w-full object-cover opacity-90">
+                            <span class="absolute top-3 right-3 bg-black/80 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Public Speaking</span>
+                            <div class="absolute bottom-3 left-3 bg-amber-500 text-gray-950 font-bold text-xs px-3 py-1 rounded-full flex items-center gap-1.5 shadow">
+                                <i class="fa-solid fa-ear-deaf"></i> Deaf Speaker (Sign Language)
+                            </div>
+                        </div>
+
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="font-black text-xl text-gray-900">Amina Hassan and others</h3>
+                                <div class="flex items-center gap-1 text-amber-500 font-bold text-sm bg-amber-50 px-2 py-0.5 rounded">
+                                    <i class="fa-solid fa-star text-xs"></i> 4.8
+                                </div>
+                            </div>
+                            <p class="text-sm font-semibold text-brand-700 mb-3">Inclusion & Resilience Speaker</p>
+                            <p class="text-sm text-gray-600 mb-5 leading-relaxed">
+                                Dynamic keynote speaker delivering inspirational talks for corporate conferences hosted in hotel ballrooms.
+                            </p>
+
+                            <div class="bg-emerald-50/80 border border-emerald-100 rounded-xl p-3.5 mb-5">
+                                <span class="block text-[11px] font-extrabold text-teal-800 uppercase tracking-wider mb-1">Accessibility Stage Needs:</span>
+                                <p class="text-xs text-teal-900 font-medium">Sign Language Interpreter support provided.</p>
+                            </div>
+
+                            <div class="flex flex-wrap gap-1.5 mb-2">
+                                <span class="bg-gray-100 text-gray-700 text-xs px-2.5 py-1 rounded-md font-medium">Keynote Address</span>
+                                <span class="bg-gray-100 text-gray-700 text-xs px-2.5 py-1 rounded-md font-medium">Diversity & Inclusion</span>
+                                <span class="bg-gray-100 text-gray-700 text-xs px-2.5 py-1 rounded-md font-medium">Youth Empowerment</span>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="font-bold mb-1">Crafts & Market</h3>
-                    <span class="text-xs text-gray-500">Artisanal Goods</span>
-                </a>
+
+                    <div class="p-6 pt-0 flex items-center justify-between gap-3 border-t border-gray-100 mt-4 pt-4">
+                        <div>
+                            <span class="block text-[10px] text-gray-400 uppercase font-bold tracking-wider">Booking Rate</span>
+                            <span class="text-lg font-black text-gray-900">KES 20,000</span>
+                        </div>
+                        <a href="booking.html?talent=Amina+Hassan" class="min-h-[44px] px-4 bg-teal-700 hover:bg-teal-800 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-2 transition shadow">
+                            <i class="fa-solid fa-calendar-check"></i> Book for Hotel Gig
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -333,7 +454,26 @@
 
     <!-- JavaScript Controllers -->
     <script>
-        // Mobile Drawer Toggle
+        function filterHomeTalents() {
+            const query = document.getElementById('home-search').value.toLowerCase();
+            const category = document.getElementById('home-category').value;
+            const cards = document.querySelectorAll('.home-talent-card');
+
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                const cardText = card.getAttribute('data-text').toLowerCase();
+
+                const matchesQuery = cardText.includes(query);
+                const matchesCategory = (category === 'All' || cardCat === category);
+
+                if (matchesQuery && matchesCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
         function toggleMobileMenu() {
             const drawer = document.getElementById('mobile-drawer');
             const backdrop = document.getElementById('mobile-drawer-backdrop');
@@ -353,13 +493,11 @@
             }
         }
 
-        // Floating Accessibility Panel Toggle
         function toggleAccessibilityPanel() {
             const panel = document.getElementById('accessibility-panel');
             panel.classList.toggle('hidden');
         }
 
-        // Font Scaling Logic
         let currentScaleIndex = 1;
         const scales = ['text-sm', 'text-base', 'text-lg', 'text-xl'];
         
@@ -376,7 +514,7 @@
             htmlRoot.classList.add(scales[currentScaleIndex]);
         }
 
-        // High Contrast Mode Toggle
+    
         let highContrastActive = false;
         function toggleHighContrast() {
             highContrastActive = !highContrastActive;
@@ -390,7 +528,6 @@
             }
         }
 
-        // Voice Assist Toggle
         let voiceActive = false;
         function toggleVoiceAssist() {
             voiceActive = !voiceActive;
